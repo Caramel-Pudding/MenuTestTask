@@ -1,20 +1,18 @@
-export const growATree = ({ pages, anchors }) => {
-    const tree = Object.values(pages).filter(page => page.level === 0);
+export const growATree = ({ pages, anchors }, topLevelIds) => {
+    const tree = Object.values(pages).filter(page => topLevelIds.includes(page.id));
+
     const appendChildren = node => {
-        if (node.anchors) {
-            node.childAnchors = [];
-            node.anchors.forEach(childAnchor => {
-                node.childAnchors.push(anchors[childAnchor]);
-            });
+        const modifiedNode = { ...node, childPages: [], childAnchors: [] };
+        if (modifiedNode.anchors) {
+            modifiedNode.childAnchors = modifiedNode.anchors.map(anchorName => anchors[anchorName]);
         }
-        if (node.pages) {
-            node.childPages = [];
-            node.pages.forEach(childPage => {
-                node.childPages.push(pages[childPage]);
-                appendChildren(pages[childPage]);
-            });
+        if (modifiedNode.pages) {
+            modifiedNode.childPages = modifiedNode.pages.map(pageName =>
+                appendChildren(pages[pageName])
+            );
         }
+        return modifiedNode;
     };
-    tree.forEach(page => appendChildren(page));
-    return tree;
+
+    return tree.map(page => appendChildren(page));
 };

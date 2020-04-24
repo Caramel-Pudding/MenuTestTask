@@ -1,0 +1,8 @@
+.placeholder {
+    display: block;
+    height: 32px;
+    border: solid 8px white;
+    border-right-width: 22px;
+    border-left-width: 22px;
+    background: #F4F4F4;
+}

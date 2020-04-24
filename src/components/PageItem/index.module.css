@@ -1,0 +1,17 @@
+.listItem {
+    display: flex;
+    padding: 8px 32px;
+    transition: background-color 0.5s ease;
+}
+
+.listItem:hover{
+    background-color: #E9E9E9
+}
+
+.headerAndAnchors{
+    padding-inline-start: 0;
+}
+
+.childPages{
+    padding-inline-start: 16px;
+}

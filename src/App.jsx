@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { fetchMenuData } from './gateways/menu';
-import MenuItem from './components/MenuItem';
+import PageItem from './components/PageItem';
 import { growATree } from './utils/treeGrower';
+import Placeholder from './components/Placeholder';
+import styles from './App.module.css';
 
 const App = () => {
     const [pages, setPages] = useState([]);
@@ -11,13 +13,13 @@ const App = () => {
     }, []);
 
     return (
-        <section>
-            <ul>
-                {pages.map(page => (
-                    <MenuItem key={page.id} item={page} />
-                ))}
-            </ul>
-        </section>
+        <ul className={styles.container}>
+            {pages.length ? (
+                pages.map(page => <PageItem key={page.id} page={page} />)
+            ) : (
+                <Placeholder />
+            )}
+        </ul>
     );
 };
 

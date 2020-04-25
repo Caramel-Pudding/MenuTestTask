@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { fetchMenuData } from './gateways/menu';
-import PageItem from './components/PageItem';
-import { growATree } from './utils/treeGrower';
-import Placeholder from './components/Placeholder';
-import styles from './App.module.css';
+import { fetchMenuData } from '../../gateways/menu';
+import PageGroup from '../PageGroup';
+import { growATree } from '../../utils/treeGrower';
+import Placeholder from '../Placeholder';
+import styles from './index.module.css';
 
 const App = () => {
     const [pages, setPages] = useState([]);
+    const activePageHook = useState('');
 
     useEffect(() => {
         fetchMenuData().then(result => setPages(growATree(...result)));
@@ -15,7 +16,9 @@ const App = () => {
     return (
         <ul className={styles.container}>
             {pages.length ? (
-                pages.map(page => <PageItem key={page.id} page={page} />)
+                pages.map(page => (
+                    <PageGroup key={page.id} activePageHook={activePageHook} page={page} />
+                ))
             ) : (
                 <Placeholder />
             )}

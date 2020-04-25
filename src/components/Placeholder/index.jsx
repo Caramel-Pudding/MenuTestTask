@@ -9,6 +9,7 @@ const Placeholder = () => {
         }
         return placeolderItems;
     };
+
     return <>{fillPlaceholder()}</>;
 };
 

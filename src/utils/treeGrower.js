@@ -3,14 +3,17 @@ export const growATree = ({ pages, anchors }, topLevelIds) => {
 
     const appendChildren = node => {
         const modifiedNode = { ...node, childPages: [], childAnchors: [] };
+
         if (modifiedNode.anchors) {
             modifiedNode.childAnchors = modifiedNode.anchors.map(anchorName => anchors[anchorName]);
         }
+
         if (modifiedNode.pages) {
             modifiedNode.childPages = modifiedNode.pages.map(pageName =>
                 appendChildren(pages[pageName])
             );
         }
+
         return modifiedNode;
     };
 

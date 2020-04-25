@@ -8,6 +8,7 @@ const TriangleBullet = ({ onClick, isExpanded }) => {
             onClick();
         }
     };
+
     return (
         <div
             aria-label="Toggle menu group visibility"
@@ -15,7 +16,7 @@ const TriangleBullet = ({ onClick, isExpanded }) => {
             role="button"
             tabIndex={0}
             onClick={onClick}
-            onKeyDown={e => handleKeyDown(e)}
+            onKeyDown={handleKeyDown}
         />
     );
 };

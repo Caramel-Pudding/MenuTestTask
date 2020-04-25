@@ -8,10 +8,22 @@
     background-color: #E9E9E9
 }
 
+.withoutBullet {
+    padding-left: 44px;
+}
+
 .headerAndAnchors{
-    padding-inline-start: 0;
+    padding-left: 0;
 }
 
 .childPages{
-    padding-inline-start: 16px;
+    padding-left: 16px;
+}
+
+.activeOutline {
+    background-color: #F4F4F4
+}
+
+.activePageButton {
+    font-weight: 600
 }

@@ -1,5 +1,5 @@
 export const findParents = (nodes, url) => {
-    const initialNode = Object.values(nodes).find(node => node.url === url);
+    const initialNode = url ? Object.values(nodes).find(node => node.url === url) : null;
     const parentsHappilyReunitedWithChildrenIds = [];
 
     const addWithParent = node => {

@@ -10,7 +10,9 @@ const App = () => {
     const activePageHook = useState('');
 
     useEffect(() => {
-        fetchMenuData().then(result => setPages(growATree(...result)));
+        fetchMenuData().then(result =>
+            setPages(growATree(...result, window.location.pathname.substr(1)))
+        );
     }, []);
 
     return (

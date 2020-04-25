@@ -1,8 +1,26 @@
-.placeholder {
+.placeholder li {
     display: block;
-    height: 32px;
+    height: 24px;
     border: solid 8px white;
-    border-right-width: 22px;
-    border-left-width: 22px;
+    border-left-width: 32px;
+    border-right-width: 32px;
     background: #F4F4F4;
+}
+
+.placeholder li:nth-child(odd) {
+    border-right-width: 0;
+}
+
+.placeholder li:nth-child(n+2):nth-child(-n+4){
+    border-left-width: 16px;
+}
+
+.placeholder li:nth-child(1) {
+    border-left-width: 0;
+    border-right-width: 0;
+}
+
+.placeholder li:nth-child(n+9):nth-child(-n+10){
+    border-left-width: 0;
+    border-right-width: 0;
 }

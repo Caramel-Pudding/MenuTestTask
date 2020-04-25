@@ -15,15 +15,20 @@ const App = () => {
         );
     }, []);
 
+    if (!pages.length) {
+        return <Placeholder wrapperClass={styles.container} />;
+    }
+
     return (
         <ul className={styles.container}>
-            {pages.length ? (
-                pages.map(page => (
-                    <PageGroup key={page.id} activePageHook={activePageHook} page={page} />
-                ))
-            ) : (
-                <Placeholder />
-            )}
+            {pages.map(page => (
+                <PageGroup
+                    key={page.id}
+                    activePageHook={activePageHook}
+                    isDisabled={false}
+                    page={page}
+                />
+            ))}
         </ul>
     );
 };

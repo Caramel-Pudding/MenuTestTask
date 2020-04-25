@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './index.module.css';
 
-const TriangleBullet = ({ onClick, isExpanded }) => {
+const TriangleBullet = ({ onClick, isOpen }) => {
     const handleKeyDown = event => {
         if (event.key === 'Enter') {
             onClick();
@@ -12,7 +12,7 @@ const TriangleBullet = ({ onClick, isExpanded }) => {
     return (
         <div
             aria-label="Toggle menu group visibility"
-            className={`${styles.bullet} ${isExpanded && styles.active}`}
+            className={`${styles.bullet} ${isOpen ? styles.active : ''}`}
             role="button"
             tabIndex={0}
             onClick={onClick}
@@ -23,7 +23,7 @@ const TriangleBullet = ({ onClick, isExpanded }) => {
 
 TriangleBullet.propTypes = {
     onClick: PropTypes.func.isRequired,
-    isExpanded: PropTypes.bool.isRequired
+    isOpen: PropTypes.bool.isRequired
 };
 
 export default TriangleBullet;

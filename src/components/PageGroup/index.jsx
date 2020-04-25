@@ -4,22 +4,29 @@ import TriangleBullet from '../TriangleBullet';
 import MenuButton from '../MenuButton';
 import styles from './index.module.css';
 
-const PageGroup = React.memo(({ page, activePageHook }) => {
+const PageGroup = React.memo(({ page, activePageHook, isDisabled }) => {
     const [isOpen, setIsOpen] = useState(page.isInitiallyOpened);
     const [activePage, setActivePage] = activePageHook;
+
     useEffect(() => {
         if (page.isInitiallyActive) {
             setActivePage(page.id);
         }
-    }, []);
+    }, [page.id, page.isInitiallyActive, setActivePage]);
 
     const isActive = page.id === activePage;
 
     const handleBulletClick = () => {
+        if (isDisabled) {
+            return;
+        }
         setIsOpen(!isOpen);
     };
 
     const handleButtonClick = () => {
+        if (isDisabled) {
+            return;
+        }
         setActivePage(page.id);
         setIsOpen(true);
     };
@@ -29,13 +36,15 @@ const PageGroup = React.memo(({ page, activePageHook }) => {
     return (
         <>
             <li
-                className={`${styles.listItem} ${
-                    isActive ? `${styles.activePageButton} ${styles.activeOutline}` : ''
-                }`}
+                className={`
+                ${styles.listItem} 
+                ${isActive ? `${styles.activePageButton} ${styles.activeOutline}` : ''} 
+                ${isDisabled ? styles.disabled : ''}
+                `}
                 style={liStyle(!!page.childPages.length)}
             >
                 {!!page.childPages.length && (
-                    <TriangleBullet isExpanded={isOpen} onClick={handleBulletClick} />
+                    <TriangleBullet isOpen={isOpen} onClick={handleBulletClick} />
                 )}
                 <MenuButton title={page.title} url={page.url} onClick={handleButtonClick} />
             </li>
@@ -44,7 +53,10 @@ const PageGroup = React.memo(({ page, activePageHook }) => {
                 page.childAnchors.map(anchor => (
                     <li
                         key={anchor.id}
-                        className={`${styles.listItem} ${styles.activeOutline}`}
+                        className={`
+                        ${styles.listItem} 
+                        ${styles.activeOutline}
+                        `}
                         style={liStyle(false)}
                     >
                         <MenuButton title={anchor.title} url={anchor.url + anchor.anchor} />
@@ -55,6 +67,7 @@ const PageGroup = React.memo(({ page, activePageHook }) => {
                     <PageGroup
                         key={childPage.id}
                         activePageHook={activePageHook}
+                        isDisabled={false}
                         page={childPage}
                     />
                 ))}
@@ -73,7 +86,8 @@ PageGroup.propTypes = {
         isInitiallyOpened: PropTypes.bool.isRequired,
         isInitiallyActive: PropTypes.bool.isRequired
     }).isRequired,
-    activePageHook: PropTypes.array.isRequired
+    activePageHook: PropTypes.array.isRequired,
+    isDisabled: PropTypes.bool.isRequired
 };
 
 export default PageGroup;

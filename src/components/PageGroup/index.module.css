@@ -5,13 +5,26 @@
 }
 
 .listItem:hover{
-    background-color: #E9E9E9
+    background-color: #F4F4F4
 }
 
 .activeOutline {
-    background-color: #F4F4F4
+    background-color: #F4F4F4;
+    transition: background-color 0.5s ease;
+}
+
+.activeOutline:hover{
+    background-color: #E9E9E9
 }
 
 .activePageButton {
     font-weight: 600
+}
+
+.disabled a{
+    color: #B0B0B2
+}
+
+.disabled div{
+    border-color: transparent #B0B0B2
 }

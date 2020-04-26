@@ -22,9 +22,11 @@
 }
 
 .disabled a{
-    color: #B0B0B2
+    color: #B0B0B2;
+    cursor: default;
 }
 
 .disabled div{
-    border-color: transparent #B0B0B2
+    border-color: transparent #B0B0B2;
+    cursor: default;
 }

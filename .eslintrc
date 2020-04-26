@@ -7,7 +7,8 @@
   "extends": [
     "airbnb",
     "plugin:prettier/recommended",
-    "prettier/react"
+    "prettier/react",
+    "plugin:lodash/recommended"
   ],
   "parserOptions": {
     "sourceType": "module",
@@ -16,7 +17,8 @@
     }
   },
   "plugins": [
-    "jest"
+    "jest",
+    "lodash"
   ],
   "rules": {
     "react/jsx-sort-props": [
@@ -71,7 +73,8 @@
         "js": "never",
         "css": "always"
       }
-    ]
+    ],
+    "lodash/prefer-lodash-method": "off"
   },
   "settings": {
     "react": {

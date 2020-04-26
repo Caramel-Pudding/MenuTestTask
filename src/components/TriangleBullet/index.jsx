@@ -2,10 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './index.module.css';
 
-const TriangleBullet = ({ onClick, isOpen }) => {
+const TriangleBullet = ({ onClick, isOpen, isDisabled }) => {
+    const handleStateChange = () => {
+        if (!isDisabled) {
+            onClick();
+        }
+    };
+
     const handleKeyDown = event => {
         if (event.key === 'Enter') {
-            onClick();
+            handleStateChange();
         }
     };
 
@@ -15,7 +21,7 @@ const TriangleBullet = ({ onClick, isOpen }) => {
             className={`${styles.bullet} ${isOpen ? styles.active : ''}`}
             role="button"
             tabIndex={0}
-            onClick={onClick}
+            onClick={handleStateChange}
             onKeyDown={handleKeyDown}
         />
     );
@@ -23,7 +29,8 @@ const TriangleBullet = ({ onClick, isOpen }) => {
 
 TriangleBullet.propTypes = {
     onClick: PropTypes.func.isRequired,
-    isOpen: PropTypes.bool.isRequired
+    isOpen: PropTypes.bool.isRequired,
+    isDisabled: PropTypes.bool.isRequired
 };
 
 export default TriangleBullet;

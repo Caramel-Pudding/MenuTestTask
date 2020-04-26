@@ -4,13 +4,17 @@ import { useHistory } from 'react-router-dom';
 import styles from './index.module.css';
 
 // Not actually a button
-const MenuButton = ({ title, url, onClick }) => {
+const MenuButton = ({ title, url, onClick, isDisabled }) => {
     const history = useHistory();
     const handleClick = e => {
         e.preventDefault();
-        history.push(`/${url}`);
-        if (onClick) {
-            onClick();
+        if (!isDisabled) {
+            if (url) {
+                history.push(`/${url}`);
+            }
+            if (onClick) {
+                onClick();
+            }
         }
     };
 
@@ -24,7 +28,8 @@ const MenuButton = ({ title, url, onClick }) => {
 MenuButton.propTypes = {
     title: PropTypes.string.isRequired,
     url: PropTypes.string,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    isDisabled: PropTypes.bool.isRequired
 };
 
 export default MenuButton;

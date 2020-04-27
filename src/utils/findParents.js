@@ -1,6 +1,7 @@
 export const findParents = (nodes, url) => {
-    const initialNode = Object.values(nodes).find(node => node.url === url);
     const parentsHappilyReunitedWithChildrenIds = [];
+
+    const initialNode = nodes && Object.values(nodes).find(node => node.url === url);
 
     const addWithParent = node => {
         parentsHappilyReunitedWithChildrenIds.push(node.id);

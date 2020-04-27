@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { fetchMenuData } from '../../gateways/menu';
 import PageGroup from '../PageGroup';
 import { growFilteredTree } from '../../utils/growFilteredTree';
 import { growInitialTree } from '../../utils/growInitialTree';
 import Placeholder from '../Placeholder';
-import SearchInput from '../SearchInput';
+import FilterInput from '../FilterInput';
 import styles from './index.module.css';
 
 const App = () => {
@@ -16,15 +16,17 @@ const App = () => {
         fetchMenuData().then(result => setData({ items: result[0], topLevelIds: result[1] }));
     }, []);
 
+    const handleFilterChange = useCallback(text => {
+        setFilter(text);
+    }, []);
+
     const pages = filter
         ? growFilteredTree(data.items, filter)
         : growInitialTree(data.items, data.topLevelIds, window.location.pathname.substr(1));
 
     return (
         <div className={styles.container}>
-            {!pages.length ? (
-                <Placeholder wrapperClass={styles.menu} />
-            ) : (
+            {pages.length ? (
                 <ul className={styles.menu}>
                     {pages.map(page => (
                         <PageGroup
@@ -35,10 +37,14 @@ const App = () => {
                         />
                     ))}
                 </ul>
+            ) : (
+                <Placeholder wrapperClass={styles.menu} />
             )}
-            <SearchInput onChange={setFilter} />
+            <FilterInput onChange={handleFilterChange} />
         </div>
     );
 };
+
+App.whyDidYouRender = true;
 
 export default App;

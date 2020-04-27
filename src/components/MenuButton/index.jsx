@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import styles from './index.module.css';
 
 // Not actually a button
-const MenuButton = ({ title, url, onClick, isDisabled }) => {
+const MenuButton = React.memo(({ title, url, onClick, isDisabled }) => {
     const history = useHistory();
     const handleClick = e => {
         e.preventDefault();
@@ -23,7 +23,7 @@ const MenuButton = ({ title, url, onClick, isDisabled }) => {
             {title}
         </a>
     );
-};
+});
 
 MenuButton.propTypes = {
     title: PropTypes.string.isRequired,

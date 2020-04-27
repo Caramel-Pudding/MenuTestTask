@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './index.module.css';
 
-const TriangleBullet = ({ onClick, isOpen, isDisabled }) => {
+const TriangleBullet = React.memo(({ onClick, isOpen, isDisabled }) => {
     const handleStateChange = () => {
         if (!isDisabled) {
             onClick();
@@ -25,7 +25,7 @@ const TriangleBullet = ({ onClick, isOpen, isDisabled }) => {
             onKeyDown={handleKeyDown}
         />
     );
-};
+});
 
 TriangleBullet.propTypes = {
     onClick: PropTypes.func.isRequired,

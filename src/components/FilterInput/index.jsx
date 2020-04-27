@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import styles from './index.module.css';
 
-const SearchInput = ({ onChange }) => {
+const FilterInput = React.memo(({ onChange }) => {
     const handleInput = debounce(text => {
         onChange(text);
     }, 300);
@@ -15,10 +15,10 @@ const SearchInput = ({ onChange }) => {
             onChange={event => handleInput(event.target.value)}
         />
     );
-};
+});
 
-SearchInput.propTypes = {
+FilterInput.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-export default SearchInput;
+export default FilterInput;

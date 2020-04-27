@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import TriangleBullet from '../TriangleBullet';
 import MenuButton from '../MenuButton';
@@ -16,19 +16,19 @@ const PageGroup = React.memo(({ page, activePageHook, isDisabled }) => {
 
     const isActive = page.id === activePage;
 
-    const handleBulletClick = () => {
+    const handleBulletClick = useCallback(() => {
         setIsOpen(!isOpen);
-    };
+    }, [isOpen]);
 
-    const handleButtonClick = () => {
+    const handleButtonClick = useCallback(() => {
         setActivePage(page.id);
         setIsOpen(true);
-    };
+    }, [setActivePage, page.id]);
 
     const liStyle = hasBullet => ({ paddingLeft: (hasBullet ? 32 : 44) + 16 * page.level });
 
     const renderAnchors = () =>
-        page.childAnchors.map(anchor => (
+        page.anchors.map(anchor => (
             <li
                 key={anchor.id}
                 className={`
@@ -37,12 +37,16 @@ const PageGroup = React.memo(({ page, activePageHook, isDisabled }) => {
                         `}
                 style={liStyle(false)}
             >
-                <MenuButton title={anchor.title} url={anchor.url + anchor.anchor} />
+                <MenuButton
+                    isDisabled={isDisabled}
+                    title={anchor.title}
+                    url={anchor.url + anchor.anchor}
+                />
             </li>
         ));
 
     const renderChildPages = () =>
-        page.childPages.map(childPage => (
+        page.pages.map(childPage => (
             <PageGroup
                 key={childPage.id}
                 activePageHook={activePageHook}
@@ -59,9 +63,9 @@ const PageGroup = React.memo(({ page, activePageHook, isDisabled }) => {
                 ${isActive ? `${styles.activePageButton} ${styles.activeOutline}` : ''} 
                 ${isDisabled ? styles.disabled : ''}
                 `}
-                style={liStyle(!!page.childPages.length)}
+                style={liStyle(!!page.pages.length)}
             >
-                {!!page.childPages.length && (
+                {!!page.pages.length && (
                     <TriangleBullet
                         isDisabled={isDisabled}
                         isOpen={isOpen}
@@ -87,8 +91,8 @@ PageGroup.propTypes = {
         title: PropTypes.string.isRequired,
         level: PropTypes.number.isRequired,
         url: PropTypes.string,
-        childPages: PropTypes.array.isRequired,
-        childAnchors: PropTypes.array.isRequired,
+        pages: PropTypes.array.isRequired,
+        anchors: PropTypes.array.isRequired,
         isInitiallyOpened: PropTypes.bool.isRequired,
         isInitiallyActive: PropTypes.bool.isRequired
     }).isRequired,

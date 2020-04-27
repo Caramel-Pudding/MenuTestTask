@@ -1,8 +1,8 @@
 export const appendChildren = (node, items, initallyOpenedPages = []) => {
     const modifiedNode = {
         ...node,
-        childPages: [],
-        childAnchors: [],
+        anchors: node.anchors || [],
+        pages: node.pages || [],
         isInitiallyOpened: false,
         isInitiallyActive: false
     };
@@ -12,17 +12,11 @@ export const appendChildren = (node, items, initallyOpenedPages = []) => {
         modifiedNode.isInitiallyActive = modifiedNode.id === initallyOpenedPages[0];
     }
 
-    if (modifiedNode.anchors) {
-        modifiedNode.childAnchors = modifiedNode.anchors.map(
-            anchorName => items.anchors[anchorName]
-        );
-    }
+    modifiedNode.anchors = modifiedNode.anchors.map(anchorName => items.anchors[anchorName]);
 
-    if (modifiedNode.pages) {
-        modifiedNode.childPages = modifiedNode.pages.map(pageName =>
-            appendChildren(items.pages[pageName], items, initallyOpenedPages)
-        );
-    }
+    modifiedNode.pages = modifiedNode.pages.map(pageName =>
+        appendChildren(items.pages[pageName], items, initallyOpenedPages)
+    );
 
     return modifiedNode;
 };

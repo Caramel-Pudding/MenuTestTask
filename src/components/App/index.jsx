@@ -7,20 +7,27 @@ import Menu from '../Menu';
 import styles from './index.module.css';
 
 const App = () => {
-    const [data, setData] = useState({ items: {}, topLevelIds: [] });
+    const [data, setData] = useState({ items: null, topLevelIds: null });
+    const [initialTree, setIntitialTree] = useState([]);
     const [filter, setFilter] = useState('');
 
     useEffect(() => {
         fetchMenuData().then(result => setData({ items: result[0], topLevelIds: result[1] }));
     }, []);
 
-    const pages = useMemo(
-        () =>
-            filter
-                ? growFilteredTree(data.items, filter)
-                : growInitialTree(data.items, data.topLevelIds, window.location.pathname.substr(1)),
-        [data, filter]
-    );
+    useEffect(() => {
+        if (data.items) {
+            setIntitialTree(
+                growInitialTree(data.items, data.topLevelIds, window.location.pathname.substr(1))
+            );
+        }
+    }, [data]);
+
+    const pages = useMemo(() => (filter ? growFilteredTree(data.items, filter) : initialTree), [
+        data.items,
+        initialTree,
+        filter
+    ]);
 
     const handleFilterChange = useCallback(text => {
         setFilter(text);

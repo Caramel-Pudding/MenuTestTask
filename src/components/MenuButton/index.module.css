@@ -3,3 +3,8 @@
     color: black;
     cursor: pointer;
 }
+
+.disabled {
+    color: #B0B0B2;
+    cursor: default;
+}

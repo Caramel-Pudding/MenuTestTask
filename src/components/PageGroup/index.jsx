@@ -61,7 +61,6 @@ const PageGroup = React.memo(({ page, activePageHook, isDisabled }) => {
                 className={`
                 ${styles.listItem} 
                 ${isActive ? `${styles.activePageButton} ${styles.activeOutline}` : ''} 
-                ${isDisabled ? styles.disabled : ''}
                 `}
                 style={liStyle(!!page.pages.length)}
             >

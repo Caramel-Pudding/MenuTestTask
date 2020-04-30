@@ -19,7 +19,11 @@ const MenuButton = React.memo(({ title, url, onClick, isDisabled }) => {
     };
 
     return (
-        <a className={styles.link} href={url} onClick={handleClick}>
+        <a
+            className={`${styles.link} ${isDisabled ? styles.disabled : ''}`}
+            href={url}
+            onClick={handleClick}
+        >
             {title}
         </a>
     );

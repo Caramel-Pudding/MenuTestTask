@@ -16,14 +16,20 @@ const TriangleBullet = React.memo(({ onClick, isOpen, isDisabled }) => {
     };
 
     return (
-        <div
-            aria-label="Toggle menu group visibility"
-            className={`${styles.bullet} ${isOpen ? styles.active : ''}`}
-            role="button"
+        <svg
+            className={`
+            ${styles.bullet} 
+            ${isOpen ? styles.active : ''} 
+            ${isDisabled ? styles.disabled : ''}
+            `}
+            height="10"
             tabIndex={0}
+            width="10"
             onClick={handleStateChange}
             onKeyDown={handleKeyDown}
-        />
+        >
+            <polygon points="0,0 0,10 7.5,5" style={{ fill: isDisabled ? '#B0B0B2' : 'black' }} />
+        </svg>
     );
 });
 

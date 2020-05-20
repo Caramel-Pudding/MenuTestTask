@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchMenuData } from '../../gateways/menu';
 import { growFilteredTree } from '../../utils/growFilteredTree';
 import { growInitialTree } from '../../utils/growInitialTree';
@@ -17,9 +18,7 @@ const App = () => {
 
     useEffect(() => {
         if (data.items) {
-            setIntitialTree(
-                growInitialTree(data.items, data.topLevelIds, window.location.pathname.substr(1))
-            );
+            setIntitialTree(growInitialTree(data.items, data.topLevelIds));
         }
     }, [data]);
 
@@ -37,6 +36,7 @@ const App = () => {
         <div className={styles.container}>
             <Menu pages={pages} />
             <FilterInput onChange={handleFilterChange} />
+            <Link to="/navigating-through-the-source-code.html">Автоскролл</Link>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
+import { debounce } from '../../utils/debounce';
 import styles from './index.module.css';
 
 const FilterInput = React.memo(({ onChange }) => {

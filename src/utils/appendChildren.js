@@ -1,21 +1,17 @@
-export const appendChildren = (node, items, initallyOpenedPages = []) => {
+export const appendChildren = (node, items, parentNode = null) => {
     const modifiedNode = {
         ...node,
         anchors: node.anchors || [],
         pages: node.pages || [],
-        isInitiallyOpened: false,
-        isInitiallyActive: false
+        parentNode: null
     };
 
-    if (initallyOpenedPages.length) {
-        modifiedNode.isInitiallyOpened = initallyOpenedPages.includes(modifiedNode.id);
-        modifiedNode.isInitiallyActive = modifiedNode.id === initallyOpenedPages[0];
-    }
+    modifiedNode.parentNode = parentNode;
 
     modifiedNode.anchors = modifiedNode.anchors.map(anchorName => items.anchors[anchorName]);
 
     modifiedNode.pages = modifiedNode.pages.map(pageName =>
-        appendChildren(items.pages[pageName], items, initallyOpenedPages)
+        appendChildren(items.pages[pageName], items, modifiedNode)
     );
 
     return modifiedNode;

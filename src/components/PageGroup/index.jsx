@@ -1,31 +1,38 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import TriangleBullet from '../TriangleBullet';
 import MenuButton from '../MenuButton';
 import styles from './index.module.css';
 
-const PageGroup = React.memo(({ page, activePageHook, isDisabled }) => {
-    const [isOpen, setIsOpen] = useState(page.isInitiallyOpened);
-    const [activePage, setActivePage] = activePageHook;
+const PageGroup = React.memo(({ page, isDisabled, initallyOpenedPages, activePageUrl }) => {
+    const [isOpen, setIsOpen] = useState(false);
 
+    const isActive = page.url === activePageUrl;
     useEffect(() => {
-        if (page.isInitiallyActive) {
-            setActivePage(page.id);
+        if (initallyOpenedPages.has(page.id)) {
+            setIsOpen(true);
         }
-    }, [page.id, page.isInitiallyActive, setActivePage]);
+    }, [activePageUrl, initallyOpenedPages, page.id]);
 
-    const isActive = page.id === activePage;
+    const menuRef = useRef(null);
+    useEffect(() => {
+        if (menuRef.current && isActive) {
+            menuRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    }, [activePageUrl, isActive]);
 
     const handleBulletClick = useCallback(() => {
         setIsOpen(!isOpen);
     }, [isOpen]);
 
     const handleButtonClick = useCallback(() => {
-        setActivePage(page.id);
         setIsOpen(true);
-    }, [setActivePage, page.id]);
+    }, []);
 
-    const liStyle = hasBullet => ({ paddingLeft: (hasBullet ? 32 : 44) + 16 * page.level });
+    const liStyle = hasBullet => ({ paddingLeft: (hasBullet ? 32 : 46) + 16 * page.level });
 
     const renderAnchors = () =>
         page.anchors.map(anchor => (
@@ -49,7 +56,8 @@ const PageGroup = React.memo(({ page, activePageHook, isDisabled }) => {
         page.pages.map(childPage => (
             <PageGroup
                 key={childPage.id}
-                activePageHook={activePageHook}
+                activePageUrl={activePageUrl}
+                initallyOpenedPages={initallyOpenedPages}
                 isDisabled={false}
                 page={childPage}
             />
@@ -58,6 +66,7 @@ const PageGroup = React.memo(({ page, activePageHook, isDisabled }) => {
     return (
         <>
             <li
+                ref={menuRef}
                 className={`
                 ${styles.listItem} 
                 ${isActive ? `${styles.activePageButton} ${styles.activeOutline}` : ''} 
@@ -72,6 +81,9 @@ const PageGroup = React.memo(({ page, activePageHook, isDisabled }) => {
                     />
                 )}
                 <MenuButton
+                    firstChildUrl={
+                        page.selectFirstChildOnClick && page.pages[0] && page.pages[0].url
+                    }
                     isDisabled={isDisabled}
                     title={page.title}
                     url={page.url}
@@ -90,15 +102,15 @@ PageGroup.propTypes = {
         title: PropTypes.string.isRequired,
         level: PropTypes.number.isRequired,
         url: PropTypes.string,
+        selectFirstChildOnClick: PropTypes.bool,
         pages: PropTypes.array.isRequired,
-        anchors: PropTypes.array.isRequired,
-        isInitiallyOpened: PropTypes.bool.isRequired,
-        isInitiallyActive: PropTypes.bool.isRequired
+        anchors: PropTypes.array.isRequired
     }).isRequired,
-    activePageHook: PropTypes.array.isRequired,
     // Есть макет для отключенного состояния, но в задаче не указаны не указаны условия для отключения.
     // Сейчас можно отключить через прямое передание состояние в пропсы
-    isDisabled: PropTypes.bool.isRequired
+    isDisabled: PropTypes.bool.isRequired,
+    initallyOpenedPages: PropTypes.object.isRequired,
+    activePageUrl: PropTypes.string
 };
 
 export default PageGroup;

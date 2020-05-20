@@ -4,13 +4,13 @@ import { useHistory } from 'react-router-dom';
 import styles from './index.module.css';
 
 // Not actually a button
-const MenuButton = React.memo(({ title, url, onClick, isDisabled }) => {
+const MenuButton = React.memo(({ title, url, onClick, isDisabled, firstChildUrl }) => {
     const history = useHistory();
     const handleClick = e => {
         e.preventDefault();
         if (!isDisabled) {
-            if (url) {
-                history.push(`/${url}`);
+            if (url || firstChildUrl) {
+                history.push(`/${url || firstChildUrl}`);
             }
             if (onClick) {
                 onClick();
@@ -31,6 +31,7 @@ const MenuButton = React.memo(({ title, url, onClick, isDisabled }) => {
 
 MenuButton.propTypes = {
     title: PropTypes.string.isRequired,
+    firstChildUrl: PropTypes.string,
     url: PropTypes.string,
     onClick: PropTypes.func,
     isDisabled: PropTypes.bool.isRequired

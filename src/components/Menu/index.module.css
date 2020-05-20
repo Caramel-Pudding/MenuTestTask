@@ -1,9 +1,9 @@
 .menu {
-    width: 216px;
+    min-width: 280px;
+    max-width: 280px;
     height: 100vh;
     overflow-y: auto;
     margin: 0 32px 0 0;
-    padding-inline-start: 0;
-    padding: 24px 0 0;
+    padding: 16px 0 0;
     background-color: white;
 }

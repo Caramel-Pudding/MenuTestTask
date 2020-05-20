@@ -28,7 +28,7 @@ const TriangleBullet = React.memo(({ onClick, isOpen, isDisabled }) => {
             onClick={handleStateChange}
             onKeyDown={handleKeyDown}
         >
-            <polygon points="0,0 0,10 7.5,5" style={{ fill: isDisabled ? '#B0B0B2' : 'black' }} />
+            <polygon points="1,1 1,9 7,5" style={{ fill: isDisabled ? '#B0B0B2' : 'black' }} />
         </svg>
     );
 });
